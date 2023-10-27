@@ -1,9 +1,11 @@
 from telegram import Update
 from telegram.ext import ApplicationBuilder, ContextTypes, MessageHandler, CommandHandler
-
+from api.ChatBotAPI import ChatBotAPI
 import os
 
-from api.ChatBotAPI import ChatBotAPI
+
+api_path = os.environ['CHAT_API_ADDRESS']
+tg_bot_token = os.environ['TG_BOT_TOKEN']
 
 
 class TgBot:
@@ -52,10 +54,6 @@ class TgBot:
             callback=self.message_handler
         ))
         self.app.run_polling()
-
-
-api_path = os.environ['CHAT_API_ADDRESS']
-tg_bot_token = os.environ['TG_BOT_TOKEN']
 
 chat_bot = ChatBotAPI(api_path=api_path)
 bot = TgBot(tg_bot_token, chat_bot)
