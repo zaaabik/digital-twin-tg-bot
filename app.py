@@ -74,7 +74,7 @@ class TgBot:
         response = self.chat_bot.clear_history(telegram_user_id)
         await update.message.reply_text(response)
 
-    async def start_message(self, update: Update, ctx: ContextTypes.DEFAULT_TYPE) -> None:
+    async def get_help(self, update: Update, ctx: ContextTypes.DEFAULT_TYPE) -> None:
         # pylint: disable=unused-argument
         """Help message for user.
 
@@ -94,8 +94,8 @@ class TgBot:
 
     def run(self):
         """Run bot."""
-        self.app.add_handler(CommandHandler(command="start", callback=self.get_whole_user_handler))
-        self.app.add_handler(CommandHandler(command="help", callback=self.get_whole_user_handler))
+        self.app.add_handler(CommandHandler(command="start", callback=self.get_help))
+        self.app.add_handler(CommandHandler(command="help", callback=self.get_help))
         self.app.add_handler(CommandHandler(command="get", callback=self.get_whole_user_handler))
         # self.app.add_handler(CommandHandler(
         #     command='remove',
