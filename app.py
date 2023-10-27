@@ -14,6 +14,7 @@ from api.ChatBotAPI import ChatBotAPI
 
 api_path = os.environ["CHAT_API_ADDRESS"]
 tg_bot_token = os.environ["TG_BOT_TOKEN"]
+VERSION = "version=0.0.1 date=27.10.23"
 
 
 class TgBot:
@@ -73,8 +74,28 @@ class TgBot:
         response = self.chat_bot.clear_history(telegram_user_id)
         await update.message.reply_text(response)
 
+    async def start_message(self, update: Update, ctx: ContextTypes.DEFAULT_TYPE) -> None:
+        # pylint: disable=unused-argument
+        """Help message for user.
+
+        Send to chat api request to remove user message history
+        Args:
+            update: bot update class
+            ctx: bot context
+        """
+        help_msg = f"""
+        Привет! Это цифровой двойник Забика {VERSION}
+        Иногда я начинаю отвечать херню, чтобы сбросить мою память напишите /clear
+        Иногда ответы занимают много времении, никуда не торопимся
+        Пока я не напишу ответ, но стоит задавать следующий вопрос
+        """
+
+        await update.message.reply_text(help_msg)
+
     def run(self):
         """Run bot."""
+        self.app.add_handler(CommandHandler(command="start", callback=self.get_whole_user_handler))
+        self.app.add_handler(CommandHandler(command="help", callback=self.get_whole_user_handler))
         self.app.add_handler(CommandHandler(command="get", callback=self.get_whole_user_handler))
         # self.app.add_handler(CommandHandler(
         #     command='remove',
