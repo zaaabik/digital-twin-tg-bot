@@ -1,0 +1,4 @@
+pre-commit==3.4.0
+pylint==3.0.1
+requests==2.31.0
+python-telegram-bot==20.5
