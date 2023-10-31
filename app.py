@@ -15,6 +15,7 @@ from api.ChatBotAPI import ChatBotAPI
 api_path = os.environ["CHAT_API_ADDRESS"]
 tg_bot_token = os.environ["TG_BOT_TOKEN"]
 VERSION = "version=0.0.1 date=27.10.23"
+API_NOT_AVAILABLE = "К сожалению в данный момент я отдыхаю и не могу отвечать на ваши вопросы."
 
 
 class TgBot:
@@ -57,6 +58,9 @@ class TgBot:
         user_name = str(update.effective_user.username)
         text = str(update.message.text)
         response = self.chat_bot.add_message(telegram_user_id, user_name, text)
+        if not response:
+            await update.message.reply_text(API_NOT_AVAILABLE)
+            return
         text_answer = response["bot_answer"]["context"]
         await update.message.reply_text(text_answer)
         await ctx.bot.send_chat_action(chat_id=ctx._chat_id, action="typing")

@@ -41,6 +41,8 @@ class ChatBotAPI:
                 "text": text,
             },
         )
+        if answer.status_code == 500:
+            return None
         return answer.json()
 
     def remove_user(self, telegram_user_id: str):
